@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>helloooo</title>
+    <style>
+        body {
+            background: url('image/City.gif') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        #start-image {
+            width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        #display-image {
+            width: 200px;
+            height: auto;
+            display: none;
+            margin: 0 auto 10px;
+        }
+        .text {
+            font-size: 24px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .buttons {
+            display: none;
+            margin-top: 20px;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .yes {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .no {
+            background-color: #f44336;
+            color: white;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            top: -50px;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <audio id="bg-music" loop>
+        <source src="song/Justin Bieber - Favorite Girl (Lyrics).mp3" type="audio/mp3">
+    </audio>
+    <div class="container">
+        <img id="start-image" src="image/klik.gif" alt="Love" style="display: block;" onclick="startExperience()">
+        <img id="display-image" src="" alt="Love Image">
+        <p class="text" id="text">Aku cinta kamu</p>
+        <div class="buttons" id="buttons">
+            <button class="yes" onclick="sendWhatsApp('yaa aku mau')">Yes</button>
+            <button class="no" onclick="sendWhatsApp('engga mauu')">No</button>
+        </div>
+    </div>
+
+    <script>
+        const texts = [
+            "Haiii kamuu",
+            "Gimana kabar kamu hari ini??",
+            "Semoga kamu sehat selalu yahh...",
+            "Mau ga jalan bareng aku?",
+            "Aku janji bakal buat hari kamu spesial!",
+            "Jadi, gimana? Mau jalan bareng?"
+        ];
+        const images = [
+            "image/foto2.gif", "image//foto6.gif", "image/foto5.gif", 
+            "image/foto4.gif", "image/foto1.gif", "image/foto3.gif"
+        ];
+        let index = 0;
+        const textElement = document.getElementById("text");
+        const displayImage = document.getElementById("display-image");
+        const startImage = document.getElementById("start-image");
+        const buttons = document.getElementById("buttons");
+        
+        function startExperience() {
+            document.getElementById("bg-music").play();
+            startImage.style.display = "none";
+            displayImage.style.display = "block";
+            changeText();
+        }
+
+        function changeText() {
+            if (index < texts.length) {
+                textElement.style.opacity = 0;
+                setTimeout(() => {
+                    textElement.innerText = texts[index];
+                    displayImage.src = images[index];
+                    textElement.style.opacity = 1;
+                    index++;
+                    setTimeout(changeText, 2000);
+                }, 1000);
+            } else {
+                buttons.style.display = "block";
+            }
+        }
+        
+        function sendWhatsApp(message) {
+            window.location.href = `https://wa.me/+6282228931153?text=${encodeURIComponent(message)}`;
+        }
+        
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 300);
+        }
+        createHearts();
+
+        document.addEventListener('contextmenu', (event) => {
+            event.preventDefault();
+        });
+
+        document.addEventListener('copy', (event) => {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>
